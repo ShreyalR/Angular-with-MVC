@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+@*@Html.Raw(Json.Encode(ViewBag.country));*@
+@*<script src="~/Scripts/angular.js"></script>*@
+<script src="~/Scripts/angular-upload.js"></script>
+<script type="text/javascript">
+    var app = angular.module('myApp', ['lr.upload']);
+
+    app.controller('HomeCtrl', ['$scope', 'upload', '$http', function ($scope, upload, $http) {
+
+        $scope.doUpload = function () {
+
+            upload({
+                method: "POST",
+                url: 'Home/upload',
+                data: {
+                    aFile: $scope.myFile
+                }
+            }).then(
+                function (response) {
+                    console.log(response.data);
+                },
+                function (response) {
+                    alert(response);
+                    console.error(response, Error);
+                }
+            );
+        }
+    }])
+
+
+        .directive('uploadFile', ['$parse', function ($parse) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+
+                    var file_uploaded = $parse(attrs.uploadFile);
+                    alert("asdasd");
+                    element.bind('change', function () {
+                        scope.$apply(function () {
+                            file_uploaded.assign(scope, element[0].files[0]);
+
+                            alert("asdasd2");
+                        });
+                    });
+                }
+            };
+        }]);
+
+</script>
+<div ng-app="myApp">
+    @*<div ng-controller="MyController">
+            <div class="card card-block" ng-repeat="result in dataList">
+                <h4 class="card-title">{{result.COUNTRY_ID}}</h4>
+                <p class="card-text">{{result.COUNTRY_NAME}}</p>
+            </div>
+            <select>
+                <option ng-modeloptionng-model="stateId" data-ng-repeat="st in dataList" value="{{st.COUNTRY_ID}}">{{st.COUNTRY_NAME}}</option>
+            </select>
+
+            @*  <input filestyle="" type="file" data-icon-name="icon-upload" data-button-text="Single" data-class-button="btn btn-default" data-classinput="form-control inline" nv-file-select="" uploader="uploader" class="form-control" />
+        </div>*@
+    <div ng-controller="HomeCtrl">
+        <input name="myFile" upload-file="myFile" type="file" />
+        <input type="button" ng-click="doUpload()" text="Upload" />
+    </div>
+</div>
+
+@section Scripts {
+
+
+}

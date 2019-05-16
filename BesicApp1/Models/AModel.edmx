@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Demo1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TBL_CITY_MASTER">
+          <Key>
+            <PropertyRef Name="CITY_ID" />
+          </Key>
+          <Property Name="CITY_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CITY_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="STATE_ID" Type="int" />
+          <Property Name="ISACTIVE" Type="bit" />
+          <Property Name="ISDELETE" Type="bit" />
+          <Property Name="CREATED_ON" Type="nchar" MaxLength="10" />
+          <Property Name="CREATED_BY" Type="int" />
+          <Property Name="MODIFIED_ON" Type="datetime" />
+          <Property Name="MODIFIED_BY" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_COUNTRY_MASTER">
+          <Key>
+            <PropertyRef Name="COUNTRY_ID" />
+          </Key>
+          <Property Name="COUNTRY_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="COUNTRY_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="ISACTIVE" Type="bit" />
+          <Property Name="ISDELETE" Type="bit" />
+          <Property Name="CREATED_ON" Type="nchar" MaxLength="10" />
+          <Property Name="CREATED_BY" Type="int" />
+          <Property Name="MODIFIED_ON" Type="datetime" />
+          <Property Name="MODIFIED_BY" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_ERROR_LOG">
+          <Key>
+            <PropertyRef Name="REFID" />
+          </Key>
+          <Property Name="REFID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ERRORMSG" Type="nvarchar(max)" />
+          <Property Name="ERRORTYPE" Type="nvarchar" MaxLength="250" />
+          <Property Name="ERRORLINE" Type="nvarchar" MaxLength="10" />
+          <Property Name="ERRORFROM" Type="nvarchar" MaxLength="100" />
+          <Property Name="ERRORPAGE" Type="nvarchar" MaxLength="100" />
+          <Property Name="ISACTIVE" Type="bit" />
+          <Property Name="CREATEDON" Type="datetime" />
+          <Property Name="CREATEDBY" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'Demo1.dbo.TBL_LOGIN_LOG' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="TBL_LOGIN_LOG">
+          <Property Name="REF_ID" Type="int" />
+          <Property Name="USER_ID" Type="int" />
+          <Property Name="LOGIN_TIME" Type="datetime" />
+          <Property Name="IP_ADDRESS" Type="nvarchar" MaxLength="15" />
+          <Property Name="IS_ACTIVE" Type="bit" />
+        </EntityType>-->
+        <EntityType Name="TBL_PAGE_MASTER">
+          <Key>
+            <PropertyRef Name="REFID" />
+          </Key>
+          <Property Name="REFID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PNAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="PADDRESS" Type="nvarchar" MaxLength="250" />
+          <Property Name="ISPARENT" Type="bit" />
+          <Property Name="ISACTIVE" Type="bit" />
+          <Property Name="ISDELETE" Type="bit" />
+          <Property Name="CREATEDON" Type="datetime" />
+          <Property Name="CREATEDBY" Type="int" />
+          <Property Name="MODIFIEDON" Type="datetime" />
+          <Property Name="MODIFIEDBY" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_REGISTRATION_MASTER">
+          <Key>
+            <PropertyRef Name="REG_ID" />
+          </Key>
+          <Property Name="REG_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="F_NAME" Type="nvarchar" MaxLength="25" />
+          <Property Name="M_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="L_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="COUNTRY_ID" Type="int" />
+          <Property Name="STATE_ID" Type="int" />
+          <Property Name="CITY_ID" Type="int" />
+          <Property Name="ADDRESS_1" Type="nvarchar" MaxLength="200" />
+          <Property Name="PHONE_1" Type="nvarchar" MaxLength="15" />
+          <Property Name="GENDER" Type="char" MaxLength="1" />
+          <Property Name="PHOTO" Type="nvarchar" MaxLength="500" />
+          <Property Name="IS_ACTIVE" Type="bit" />
+          <Property Name="IS_DELETE" Type="bit" />
+          <Property Name="CREATED_ON" Type="datetime" />
+          <Property Name="CREATED_BY" Type="int" />
+          <Property Name="MODIFIED_ON" Type="datetime" />
+          <Property Name="MODIFIED_BY" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="REFID" />
+          </Key>
+          <Property Name="REFID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ROLEID" Type="bigint" />
+          <Property Name="PAGEID" Type="int" />
+          <Property Name="_ADD" Type="bit" />
+          <Property Name="_EDIT" Type="bit" />
+          <Property Name="_DELETE" Type="bit" />
+          <Property Name="_VIEW" Type="bit" />
+          <Property Name="ISACTIVE" Type="bit" />
+          <Property Name="ISDELETE" Type="bit" />
+          <Property Name="CREATEDON" Type="datetime" />
+          <Property Name="CREATEDBY" Type="int" />
+          <Property Name="MODIFIEDON" Type="datetime" />
+          <Property Name="MODIFIEDBY" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_ROLE_MASTER">
+          <Key>
+            <PropertyRef Name="REFID" />
+          </Key>
+          <Property Name="REFID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ROLE_NAME" Type="nvarchar(max)" />
+          <Property Name="RDESCRIPTION" Type="nvarchar" MaxLength="250" />
+          <Property Name="ISACTIVE" Type="bit" />
+          <Property Name="ISDELETE" Type="bit" />
+          <Property Name="CREATEDON" Type="datetime" />
+          <Property Name="CREATEDBY" Type="int" />
+          <Property Name="MODIFIEDON" Type="datetime" />
+          <Property Name="MODIFIEDBY" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_STATE_MASTER">
+          <Key>
+            <PropertyRef Name="STATE_ID" />
+          </Key>
+          <Property Name="STATE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="STATE_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="COUNTRY_ID" Type="int" />
+          <Property Name="ISACTIVE" Type="bit" />
+          <Property Name="ISDELETE" Type="bit" />
+          <Property Name="CREATED_ON" Type="nchar" MaxLength="10" />
+          <Property Name="CREATED_BY" Type="int" />
+          <Property Name="MODIFIED_ON" Type="datetime" />
+          <Property Name="MODIFIED_BY" Type="int" />
+        </EntityType>
+        <EntityType Name="TBL_USER_MASTER">
+          <Key>
+            <PropertyRef Name="USERID" />
+          </Key>
+          <Property Name="USERID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="USER_NAME" Type="nvarchar" MaxLength="25" />
+          <Property Name="PASSWORD" Type="nvarchar" MaxLength="100" />
+          <Property Name="ROLE_ID" Type="int" />
+          <Property Name="REG_ID" Type="int" />
+          <Property Name="IS_ACTIVE" Type="bit" />
+          <Property Name="IS_DELETE" Type="bit" />
+          <Property Name="CREATED_ON" Type="datetime" />
+          <Property Name="CREATED_BY" Type="int" />
+          <Property Name="MODIFIED_ON" Type="datetime" />
+          <Property Name="MODIFIED_BY" Type="int" />
+        </EntityType>
+        <EntityContainer Name="Demo1ModelStoreContainer">
+          <EntitySet Name="TBL_CITY_MASTER" EntityType="Self.TBL_CITY_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_COUNTRY_MASTER" EntityType="Self.TBL_COUNTRY_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ERROR_LOG" EntityType="Self.TBL_ERROR_LOG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_PAGE_MASTER" EntityType="Self.TBL_PAGE_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_REGISTRATION_MASTER" EntityType="Self.TBL_REGISTRATION_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_RIGHTS_MASTER" EntityType="Self.TBL_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_ROLE_MASTER" EntityType="Self.TBL_ROLE_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_STATE_MASTER" EntityType="Self.TBL_STATE_MASTER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TBL_USER_MASTER" EntityType="Self.TBL_USER_MASTER" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Demo1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="TBL_CITY_MASTER">
+          <Key>
+            <PropertyRef Name="CITY_ID" />
+          </Key>
+          <Property Name="CITY_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CITY_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="STATE_ID" Type="Int32" />
+          <Property Name="ISACTIVE" Type="Boolean" />
+          <Property Name="ISDELETE" Type="Boolean" />
+          <Property Name="CREATED_ON" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CREATED_BY" Type="Int32" />
+          <Property Name="MODIFIED_ON" Type="DateTime" Precision="3" />
+          <Property Name="MODIFIED_BY" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_COUNTRY_MASTER">
+          <Key>
+            <PropertyRef Name="COUNTRY_ID" />
+          </Key>
+          <Property Name="COUNTRY_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="COUNTRY_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ISACTIVE" Type="Boolean" />
+          <Property Name="ISDELETE" Type="Boolean" />
+          <Property Name="CREATED_ON" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CREATED_BY" Type="Int32" />
+          <Property Name="MODIFIED_ON" Type="DateTime" Precision="3" />
+          <Property Name="MODIFIED_BY" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_ERROR_LOG">
+          <Key>
+            <PropertyRef Name="REFID" />
+          </Key>
+          <Property Name="REFID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ERRORMSG" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ERRORTYPE" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ERRORLINE" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ERRORFROM" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ERRORPAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ISACTIVE" Type="Boolean" />
+          <Property Name="CREATEDON" Type="DateTime" Precision="3" />
+          <Property Name="CREATEDBY" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_PAGE_MASTER">
+          <Key>
+            <PropertyRef Name="REFID" />
+          </Key>
+          <Property Name="REFID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PNAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PADDRESS" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ISPARENT" Type="Boolean" />
+          <Property Name="ISACTIVE" Type="Boolean" />
+          <Property Name="ISDELETE" Type="Boolean" />
+          <Property Name="CREATEDON" Type="DateTime" Precision="3" />
+          <Property Name="CREATEDBY" Type="Int32" />
+          <Property Name="MODIFIEDON" Type="DateTime" Precision="3" />
+          <Property Name="MODIFIEDBY" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_REGISTRATION_MASTER">
+          <Key>
+            <PropertyRef Name="REG_ID" />
+          </Key>
+          <Property Name="REG_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="F_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="M_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="L_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="COUNTRY_ID" Type="Int32" />
+          <Property Name="STATE_ID" Type="Int32" />
+          <Property Name="CITY_ID" Type="Int32" />
+          <Property Name="ADDRESS_1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PHONE_1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="GENDER" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PHOTO" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IS_ACTIVE" Type="Boolean" />
+          <Property Name="IS_DELETE" Type="Boolean" />
+          <Property Name="CREATED_ON" Type="DateTime" Precision="3" />
+          <Property Name="CREATED_BY" Type="Int32" />
+          <Property Name="MODIFIED_ON" Type="DateTime" Precision="3" />
+          <Property Name="MODIFIED_BY" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_RIGHTS_MASTER">
+          <Key>
+            <PropertyRef Name="REFID" />
+          </Key>
+          <Property Name="REFID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ROLEID" Type="Int64" />
+          <Property Name="PAGEID" Type="Int32" />
+          <Property Name="C_ADD" Type="Boolean" />
+          <Property Name="C_EDIT" Type="Boolean" />
+          <Property Name="C_DELETE" Type="Boolean" />
+          <Property Name="C_VIEW" Type="Boolean" />
+          <Property Name="ISACTIVE" Type="Boolean" />
+          <Property Name="ISDELETE" Type="Boolean" />
+          <Property Name="CREATEDON" Type="DateTime" Precision="3" />
+          <Property Name="CREATEDBY" Type="Int32" />
+          <Property Name="MODIFIEDON" Type="DateTime" Precision="3" />
+          <Property Name="MODIFIEDBY" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_ROLE_MASTER">
+          <Key>
+            <PropertyRef Name="REFID" />
+          </Key>
+          <Property Name="REFID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ROLE_NAME" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RDESCRIPTION" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ISACTIVE" Type="Boolean" />
+          <Property Name="ISDELETE" Type="Boolean" />
+          <Property Name="CREATEDON" Type="DateTime" Precision="3" />
+          <Property Name="CREATEDBY" Type="Int32" />
+          <Property Name="MODIFIEDON" Type="DateTime" Precision="3" />
+          <Property Name="MODIFIEDBY" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_STATE_MASTER">
+          <Key>
+            <PropertyRef Name="STATE_ID" />
+          </Key>
+          <Property Name="STATE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="STATE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="COUNTRY_ID" Type="Int32" />
+          <Property Name="ISACTIVE" Type="Boolean" />
+          <Property Name="ISDELETE" Type="Boolean" />
+          <Property Name="CREATED_ON" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="CREATED_BY" Type="Int32" />
+          <Property Name="MODIFIED_ON" Type="DateTime" Precision="3" />
+          <Property Name="MODIFIED_BY" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TBL_USER_MASTER">
+          <Key>
+            <PropertyRef Name="USERID" />
+          </Key>
+          <Property Name="USERID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="USER_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="PASSWORD" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ROLE_ID" Type="Int32" />
+          <Property Name="REG_ID" Type="Int32" />
+          <Property Name="IS_ACTIVE" Type="Boolean" />
+          <Property Name="IS_DELETE" Type="Boolean" />
+          <Property Name="CREATED_ON" Type="DateTime" Precision="3" />
+          <Property Name="CREATED_BY" Type="Int32" />
+          <Property Name="MODIFIED_ON" Type="DateTime" Precision="3" />
+          <Property Name="MODIFIED_BY" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="Demo1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TBL_CITY_MASTER" EntityType="Self.TBL_CITY_MASTER" />
+          <EntitySet Name="TBL_COUNTRY_MASTER" EntityType="Self.TBL_COUNTRY_MASTER" />
+          <EntitySet Name="TBL_ERROR_LOG" EntityType="Self.TBL_ERROR_LOG" />
+          <EntitySet Name="TBL_PAGE_MASTER" EntityType="Self.TBL_PAGE_MASTER" />
+          <EntitySet Name="TBL_REGISTRATION_MASTER" EntityType="Self.TBL_REGISTRATION_MASTER" />
+          <EntitySet Name="TBL_RIGHTS_MASTER" EntityType="Self.TBL_RIGHTS_MASTER" />
+          <EntitySet Name="TBL_ROLE_MASTER" EntityType="Self.TBL_ROLE_MASTER" />
+          <EntitySet Name="TBL_STATE_MASTER" EntityType="Self.TBL_STATE_MASTER" />
+          <EntitySet Name="TBL_USER_MASTER" EntityType="Self.TBL_USER_MASTER" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Demo1ModelStoreContainer" CdmEntityContainer="Demo1Entities">
+          <EntitySetMapping Name="TBL_CITY_MASTER">
+            <EntityTypeMapping TypeName="Demo1Model.TBL_CITY_MASTER">
+              <MappingFragment StoreEntitySet="TBL_CITY_MASTER">
+                <ScalarProperty Name="CITY_ID" ColumnName="CITY_ID" />
+                <ScalarProperty Name="CITY_NAME" ColumnName="CITY_NAME" />
+                <ScalarProperty Name="STATE_ID" ColumnName="STATE_ID" />
+                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
+                <ScalarProperty Name="ISDELETE" ColumnName="ISDELETE" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="MODIFIED_ON" ColumnName="MODIFIED_ON" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_COUNTRY_MASTER">
+            <EntityTypeMapping TypeName="Demo1Model.TBL_COUNTRY_MASTER">
+              <MappingFragment StoreEntitySet="TBL_COUNTRY_MASTER">
+                <ScalarProperty Name="COUNTRY_ID" ColumnName="COUNTRY_ID" />
+                <ScalarProperty Name="COUNTRY_NAME" ColumnName="COUNTRY_NAME" />
+                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
+                <ScalarProperty Name="ISDELETE" ColumnName="ISDELETE" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="MODIFIED_ON" ColumnName="MODIFIED_ON" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ERROR_LOG">
+            <EntityTypeMapping TypeName="Demo1Model.TBL_ERROR_LOG">
+              <MappingFragment StoreEntitySet="TBL_ERROR_LOG">
+                <ScalarProperty Name="REFID" ColumnName="REFID" />
+                <ScalarProperty Name="ERRORMSG" ColumnName="ERRORMSG" />
+                <ScalarProperty Name="ERRORTYPE" ColumnName="ERRORTYPE" />
+                <ScalarProperty Name="ERRORLINE" ColumnName="ERRORLINE" />
+                <ScalarProperty Name="ERRORFROM" ColumnName="ERRORFROM" />
+                <ScalarProperty Name="ERRORPAGE" ColumnName="ERRORPAGE" />
+                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
+                <ScalarProperty Name="CREATEDON" ColumnName="CREATEDON" />
+                <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_PAGE_MASTER">
+            <EntityTypeMapping TypeName="Demo1Model.TBL_PAGE_MASTER">
+              <MappingFragment StoreEntitySet="TBL_PAGE_MASTER">
+                <ScalarProperty Name="REFID" ColumnName="REFID" />
+                <ScalarProperty Name="PNAME" ColumnName="PNAME" />
+                <ScalarProperty Name="PADDRESS" ColumnName="PADDRESS" />
+                <ScalarProperty Name="ISPARENT" ColumnName="ISPARENT" />
+                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
+                <ScalarProperty Name="ISDELETE" ColumnName="ISDELETE" />
+                <ScalarProperty Name="CREATEDON" ColumnName="CREATEDON" />
+                <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
+                <ScalarProperty Name="MODIFIEDON" ColumnName="MODIFIEDON" />
+                <ScalarProperty Name="MODIFIEDBY" ColumnName="MODIFIEDBY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_REGISTRATION_MASTER">
+            <EntityTypeMapping TypeName="Demo1Model.TBL_REGISTRATION_MASTER">
+              <MappingFragment StoreEntitySet="TBL_REGISTRATION_MASTER">
+                <ScalarProperty Name="REG_ID" ColumnName="REG_ID" />
+                <ScalarProperty Name="F_NAME" ColumnName="F_NAME" />
+                <ScalarProperty Name="M_NAME" ColumnName="M_NAME" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="COUNTRY_ID" ColumnName="COUNTRY_ID" />
+                <ScalarProperty Name="STATE_ID" ColumnName="STATE_ID" />
+                <ScalarProperty Name="CITY_ID" ColumnName="CITY_ID" />
+                <ScalarProperty Name="ADDRESS_1" ColumnName="ADDRESS_1" />
+                <ScalarProperty Name="PHONE_1" ColumnName="PHONE_1" />
+                <ScalarProperty Name="GENDER" ColumnName="GENDER" />
+                <ScalarProperty Name="PHOTO" ColumnName="PHOTO" />
+                <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
+                <ScalarProperty Name="IS_DELETE" ColumnName="IS_DELETE" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="MODIFIED_ON" ColumnName="MODIFIED_ON" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_RIGHTS_MASTER">
+            <EntityTypeMapping TypeName="Demo1Model.TBL_RIGHTS_MASTER">
+              <MappingFragment StoreEntitySet="TBL_RIGHTS_MASTER">
+                <ScalarProperty Name="REFID" ColumnName="REFID" />
+                <ScalarProperty Name="ROLEID" ColumnName="ROLEID" />
+                <ScalarProperty Name="PAGEID" ColumnName="PAGEID" />
+                <ScalarProperty Name="C_ADD" ColumnName="_ADD" />
+                <ScalarProperty Name="C_EDIT" ColumnName="_EDIT" />
+                <ScalarProperty Name="C_DELETE" ColumnName="_DELETE" />
+                <ScalarProperty Name="C_VIEW" ColumnName="_VIEW" />
+                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
+                <ScalarProperty Name="ISDELETE" ColumnName="ISDELETE" />
+                <ScalarProperty Name="CREATEDON" ColumnName="CREATEDON" />
+                <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
+                <ScalarProperty Name="MODIFIEDON" ColumnName="MODIFIEDON" />
+                <ScalarProperty Name="MODIFIEDBY" ColumnName="MODIFIEDBY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_ROLE_MASTER">
+            <EntityTypeMapping TypeName="Demo1Model.TBL_ROLE_MASTER">
+              <MappingFragment StoreEntitySet="TBL_ROLE_MASTER">
+                <ScalarProperty Name="REFID" ColumnName="REFID" />
+                <ScalarProperty Name="ROLE_NAME" ColumnName="ROLE_NAME" />
+                <ScalarProperty Name="RDESCRIPTION" ColumnName="RDESCRIPTION" />
+                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
+                <ScalarProperty Name="ISDELETE" ColumnName="ISDELETE" />
+                <ScalarProperty Name="CREATEDON" ColumnName="CREATEDON" />
+                <ScalarProperty Name="CREATEDBY" ColumnName="CREATEDBY" />
+                <ScalarProperty Name="MODIFIEDON" ColumnName="MODIFIEDON" />
+                <ScalarProperty Name="MODIFIEDBY" ColumnName="MODIFIEDBY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_STATE_MASTER">
+            <EntityTypeMapping TypeName="Demo1Model.TBL_STATE_MASTER">
+              <MappingFragment StoreEntitySet="TBL_STATE_MASTER">
+                <ScalarProperty Name="STATE_ID" ColumnName="STATE_ID" />
+                <ScalarProperty Name="STATE_NAME" ColumnName="STATE_NAME" />
+                <ScalarProperty Name="COUNTRY_ID" ColumnName="COUNTRY_ID" />
+                <ScalarProperty Name="ISACTIVE" ColumnName="ISACTIVE" />
+                <ScalarProperty Name="ISDELETE" ColumnName="ISDELETE" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="MODIFIED_ON" ColumnName="MODIFIED_ON" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TBL_USER_MASTER">
+            <EntityTypeMapping TypeName="Demo1Model.TBL_USER_MASTER">
+              <MappingFragment StoreEntitySet="TBL_USER_MASTER">
+                <ScalarProperty Name="USERID" ColumnName="USERID" />
+                <ScalarProperty Name="USER_NAME" ColumnName="USER_NAME" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+                <ScalarProperty Name="REG_ID" ColumnName="REG_ID" />
+                <ScalarProperty Name="IS_ACTIVE" ColumnName="IS_ACTIVE" />
+                <ScalarProperty Name="IS_DELETE" ColumnName="IS_DELETE" />
+                <ScalarProperty Name="CREATED_ON" ColumnName="CREATED_ON" />
+                <ScalarProperty Name="CREATED_BY" ColumnName="CREATED_BY" />
+                <ScalarProperty Name="MODIFIED_ON" ColumnName="MODIFIED_ON" />
+                <ScalarProperty Name="MODIFIED_BY" ColumnName="MODIFIED_BY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

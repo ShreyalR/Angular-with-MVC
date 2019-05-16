@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Demo1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="TBL_CITY_MASTER">
+    <Key>
+      <PropertyRef Name="CITY_ID" />
+    </Key>
+    <Property Name="CITY_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CITY_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="STATE_ID" Type="int" />
+    <Property Name="ISACTIVE" Type="bit" />
+    <Property Name="ISDELETE" Type="bit" />
+    <Property Name="CREATED_ON" Type="nchar" MaxLength="10" />
+    <Property Name="CREATED_BY" Type="int" />
+    <Property Name="MODIFIED_ON" Type="datetime" />
+    <Property Name="MODIFIED_BY" Type="int" />
+  </EntityType>
+  <EntityType Name="TBL_COUNTRY_MASTER">
+    <Key>
+      <PropertyRef Name="COUNTRY_ID" />
+    </Key>
+    <Property Name="COUNTRY_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="COUNTRY_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="ISACTIVE" Type="bit" />
+    <Property Name="ISDELETE" Type="bit" />
+    <Property Name="CREATED_ON" Type="nchar" MaxLength="10" />
+    <Property Name="CREATED_BY" Type="int" />
+    <Property Name="MODIFIED_ON" Type="datetime" />
+    <Property Name="MODIFIED_BY" Type="int" />
+  </EntityType>
+  <EntityType Name="TBL_ERROR_LOG">
+    <Key>
+      <PropertyRef Name="REFID" />
+    </Key>
+    <Property Name="REFID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ERRORMSG" Type="nvarchar(max)" />
+    <Property Name="ERRORTYPE" Type="nvarchar" MaxLength="250" />
+    <Property Name="ERRORLINE" Type="nvarchar" MaxLength="10" />
+    <Property Name="ERRORFROM" Type="nvarchar" MaxLength="100" />
+    <Property Name="ERRORPAGE" Type="nvarchar" MaxLength="100" />
+    <Property Name="ISACTIVE" Type="bit" />
+    <Property Name="CREATEDON" Type="datetime" />
+    <Property Name="CREATEDBY" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'Demo1.dbo.TBL_LOGIN_LOG' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="TBL_LOGIN_LOG">
+          <Property Name="REF_ID" Type="int" />
+          <Property Name="USER_ID" Type="int" />
+          <Property Name="LOGIN_TIME" Type="datetime" />
+          <Property Name="IP_ADDRESS" Type="nvarchar" MaxLength="15" />
+          <Property Name="IS_ACTIVE" Type="bit" />
+        </EntityType>-->
+  <EntityType Name="TBL_PAGE_MASTER">
+    <Key>
+      <PropertyRef Name="REFID" />
+    </Key>
+    <Property Name="REFID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PNAME" Type="nvarchar" MaxLength="100" />
+    <Property Name="PADDRESS" Type="nvarchar" MaxLength="250" />
+    <Property Name="ISPARENT" Type="bit" />
+    <Property Name="ISACTIVE" Type="bit" />
+    <Property Name="ISDELETE" Type="bit" />
+    <Property Name="CREATEDON" Type="datetime" />
+    <Property Name="CREATEDBY" Type="int" />
+    <Property Name="MODIFIEDON" Type="datetime" />
+    <Property Name="MODIFIEDBY" Type="int" />
+  </EntityType>
+  <EntityType Name="TBL_REGISTRATION_MASTER">
+    <Key>
+      <PropertyRef Name="REG_ID" />
+    </Key>
+    <Property Name="REG_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="F_NAME" Type="nvarchar" MaxLength="25" />
+    <Property Name="M_NAME" Type="nvarchar" MaxLength="100" />
+    <Property Name="L_NAME" Type="nvarchar" MaxLength="100" />
+    <Property Name="DOB" Type="datetime" />
+    <Property Name="COUNTRY_ID" Type="int" />
+    <Property Name="STATE_ID" Type="int" />
+    <Property Name="CITY_ID" Type="int" />
+    <Property Name="ADDRESS_1" Type="nvarchar" MaxLength="200" />
+    <Property Name="PHONE_1" Type="nvarchar" MaxLength="15" />
+    <Property Name="GENDER" Type="char" MaxLength="1" />
+    <Property Name="PHOTO" Type="nvarchar" MaxLength="500" />
+    <Property Name="IS_ACTIVE" Type="bit" />
+    <Property Name="IS_DELETE" Type="bit" />
+    <Property Name="CREATED_ON" Type="datetime" />
+    <Property Name="CREATED_BY" Type="int" />
+    <Property Name="MODIFIED_ON" Type="datetime" />
+    <Property Name="MODIFIED_BY" Type="int" />
+  </EntityType>
+  <EntityType Name="TBL_RIGHTS_MASTER">
+    <Key>
+      <PropertyRef Name="REFID" />
+    </Key>
+    <Property Name="REFID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ROLEID" Type="bigint" />
+    <Property Name="PAGEID" Type="int" />
+    <Property Name="_ADD" Type="bit" />
+    <Property Name="_EDIT" Type="bit" />
+    <Property Name="_DELETE" Type="bit" />
+    <Property Name="_VIEW" Type="bit" />
+    <Property Name="ISACTIVE" Type="bit" />
+    <Property Name="ISDELETE" Type="bit" />
+    <Property Name="CREATEDON" Type="datetime" />
+    <Property Name="CREATEDBY" Type="int" />
+    <Property Name="MODIFIEDON" Type="datetime" />
+    <Property Name="MODIFIEDBY" Type="int" />
+  </EntityType>
+  <EntityType Name="TBL_ROLE_MASTER">
+    <Key>
+      <PropertyRef Name="REFID" />
+    </Key>
+    <Property Name="REFID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ROLE_NAME" Type="nvarchar(max)" />
+    <Property Name="RDESCRIPTION" Type="nvarchar" MaxLength="250" />
+    <Property Name="ISACTIVE" Type="bit" />
+    <Property Name="ISDELETE" Type="bit" />
+    <Property Name="CREATEDON" Type="datetime" />
+    <Property Name="CREATEDBY" Type="int" />
+    <Property Name="MODIFIEDON" Type="datetime" />
+    <Property Name="MODIFIEDBY" Type="int" />
+  </EntityType>
+  <EntityType Name="TBL_STATE_MASTER">
+    <Key>
+      <PropertyRef Name="STATE_ID" />
+    </Key>
+    <Property Name="STATE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="STATE_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="COUNTRY_ID" Type="int" />
+    <Property Name="ISACTIVE" Type="bit" />
+    <Property Name="ISDELETE" Type="bit" />
+    <Property Name="CREATED_ON" Type="nchar" MaxLength="10" />
+    <Property Name="CREATED_BY" Type="int" />
+    <Property Name="MODIFIED_ON" Type="datetime" />
+    <Property Name="MODIFIED_BY" Type="int" />
+  </EntityType>
+  <EntityType Name="TBL_USER_MASTER">
+    <Key>
+      <PropertyRef Name="USERID" />
+    </Key>
+    <Property Name="USERID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="USER_NAME" Type="nvarchar" MaxLength="25" />
+    <Property Name="PASSWORD" Type="nvarchar" MaxLength="100" />
+    <Property Name="ROLE_ID" Type="int" />
+    <Property Name="REG_ID" Type="int" />
+    <Property Name="IS_ACTIVE" Type="bit" />
+    <Property Name="IS_DELETE" Type="bit" />
+    <Property Name="CREATED_ON" Type="datetime" />
+    <Property Name="CREATED_BY" Type="int" />
+    <Property Name="MODIFIED_ON" Type="datetime" />
+    <Property Name="MODIFIED_BY" Type="int" />
+  </EntityType>
+  <EntityContainer Name="Demo1ModelStoreContainer">
+    <EntitySet Name="TBL_CITY_MASTER" EntityType="Self.TBL_CITY_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_COUNTRY_MASTER" EntityType="Self.TBL_COUNTRY_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_ERROR_LOG" EntityType="Self.TBL_ERROR_LOG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_PAGE_MASTER" EntityType="Self.TBL_PAGE_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_REGISTRATION_MASTER" EntityType="Self.TBL_REGISTRATION_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_RIGHTS_MASTER" EntityType="Self.TBL_RIGHTS_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_ROLE_MASTER" EntityType="Self.TBL_ROLE_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_STATE_MASTER" EntityType="Self.TBL_STATE_MASTER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TBL_USER_MASTER" EntityType="Self.TBL_USER_MASTER" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

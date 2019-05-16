@@ -1,0 +1,287 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/datepicker.css" rel="stylesheet" />
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+<script type="text/javascript">
+    var app = angular.module('MyApp', ['ngFileUpload'])
+    app.controller('MyController', function ($scope, $http, $window, Upload) {
+
+        $scope.Countrys = function () {
+            var JKS = $http({
+                method: "POST",
+                url: "../Home/Country",
+                dataType: 'json',
+                headers: { "Content-Type": "application/json" }
+            });
+            JKS.success(function (data, status) {
+
+                $scope.Country = data;
+            });
+        }
+
+        $scope.State = function (REG_ID) {
+            var country = REG_ID.COUNTRY_ID;
+            var JKS = $http({
+                method: "POST",
+                url: "../Home/State",
+                data: "{id: '" + country + "'}",
+                dataType: 'json',
+                headers: { "Content-Type": "application/json" }
+            });
+            JKS.success(function (data, status) {
+                $scope.States = data;
+            });
+        };
+
+        $scope.City = function (REG_ID) {
+
+            var state = REG_ID.STATE_ID;
+            var asd = $http({
+                method: "POST",
+                url: "../Home/City",
+                data: "{id: '" + state + "'}",
+                dataType: 'json',
+                headers: { "Content-Type": "application/json" }
+            });
+            asd.success(function (data, status) {
+                $scope.Citys = data;
+            });
+        };
+
+        $scope.UploadFiles = function (files) {
+            $scope.SelectedFiles = files;
+            if ($scope.SelectedFiles && $scope.SelectedFiles.length) {
+                Upload.upload({
+                    url: '/Client/Upload/',
+                    data: {
+                        files: $scope.SelectedFiles
+                    }
+                }).then(function (response) {
+                   // $timeout(function () {
+                        debugger;
+                        $scope.PHOTO = response.data;
+                        //this.PImage = response.data;
+                   //});
+                }, function (response) {
+                    if (response.status > 0) {
+                        var errorMsg = response.status + ': ' + response.data;
+                        alert(errorMsg);
+                    }
+                }, function (evt) {
+                    // var element = angular.element(document.querySelector('#dvProgress'));
+                    //  $scope.Progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    // element.html('<div style="width: ' + $scope.Progress + '%">' + $scope.Progress + '%</div>');
+                });
+            }
+        };
+
+        $scope.ButtonC = function () {
+            debugger;
+            var GetAll = new Object();
+            GetAll.F_NAME = $scope.F_NAME;
+            GetAll.M_NAME = $scope.M_NAME;
+            GetAll.L_NAME = $scope.L_NAME;
+            GetAll.DOB = $scope.date;
+            GetAll.COUNTRY_ID = $scope.COUNTRY_ID;
+            GetAll.STATE_ID = $scope.STATE_ID;
+            GetAll.CITY_ID = $scope.CITY_ID;
+            GetAll.ADDRESS_1 = $scope.ADDRESS_1;
+            GetAll.PHONE_1 = $scope.PHONE_1;
+            GetAll.GENDER = $scope.GENDER;
+            GetAll.PHOTO = $scope.PHOTO;
+            GetAll.IS_ACTIVE = $scope.IS_ACTIVE;
+
+            var post = $http({
+                method: "POST",
+                url: "/Client/Create",
+                dataType: 'json',
+                data: GetAll,
+                headers: { "Content-Type": "application/json" }
+            });
+
+            post.success(function (data, status) {
+               
+                $window.location.href = data;
+            });
+
+            post.error(function (data, status) {
+                debugger;
+                $window.alert("Hello: " + data[0].statusCode + " .\nCurrent Date and Time: " + data[0].StatusMsg);
+            });
+        }
+
+        app.directive('datepicker', function () {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                compile: function () {
+                    return {
+                        pre: function (scope, element, attrs, ngModelCtrl) {
+                            var format, dateObj;
+                            format = (!attrs.dpFormat) ? 'd/m/yyyy' : attrs.dpFormat;
+                            if (!attrs.initDate && !attrs.dpFormat) {
+                                // If there is no initDate attribute than we will get todays date as the default
+                                dateObj = new Date();
+                                scope[attrs.ngModel] = dateObj.getDate() + '/' + (dateObj.getMonth() + 1) + '/' + dateObj.getFullYear();
+                            } else if (!attrs.initDate) {
+                                // Otherwise set as the init date
+                                scope[attrs.ngModel] = attrs.initDate;
+                            } else {
+                                // I could put some complex logic that changes the order of the date string I
+                                // create from the dateObj based on the format, but I'll leave that for now
+                                // Or I could switch case and limit the types of formats...
+                            }
+                            // Initialize the date-picker
+                            $(element).datepicker({
+                                format: format,
+                            }).on('changeDate', function (ev) {
+                                // To me this looks cleaner than adding $apply(); after everything.
+                                scope.$apply(function () {
+                                    ngModelCtrl.$setViewValue(ev.format(format));
+                                });
+                            });
+                        }
+                    }
+                }
+            }
+        });
+
+
+
+    });
+</script>
+<div ng-app="MyApp" ng-controller="MyController">
+    <div class="form-horizontal" name="MyForm">
+        <h4>Client Registration</h4>
+        <hr />
+        <div class="form-group">
+            <lable class="control-label col-md-2">First Name</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" ng-model="F_NAME" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Middle Name</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" ng-model="M_NAME" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Last Name</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" ng-model="L_NAME" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Date Of Birth</lable>
+            <div class="col-md-10">
+                <input type="datetime" class="form-control" id="datetimepicker" ng-model="date" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Country</lable>
+            <div class="col-md-10">
+                <select name="COUNTRY_ID" ng-model="COUNTRY_ID" data-ng-init="Countrys()" ng-change="State(this)" class="form-control" required>
+                    <option ng-modeloptionng-model="COUNTRY_ID" data-ng-repeat="st in Country" value="{{st.Value}}">{{st.Text}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">State</lable>
+            <div class="col-md-10">
+                <select ng-model="STATE_ID" ng-change="City(this)" class="form-control">
+                    <option ng-modeloptionng-model="STATE_ID" data-ng-repeat="st in States" value="{{st.Value}}">{{st.Text}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">City</lable>
+            <div class="col-md-10">
+                <select ng-model="CITY_ID" class="form-control">
+                    <option ng-modeloptionng-model="CITY_ID" data-ng-repeat="st in Citys" value="{{st.Value}}">{{st.Text}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Address</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" ng-model="ADDRESS_1" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Phone</lable>
+            <div class="col-md-10">
+                <input type="tel" class="form-control" ng-model="PHONE_1" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">GENDER</lable>
+            <div class="col-md-10">
+                <input type="radio" ng-model="GENDER" value="M">Male
+                <input type="radio" ng-model="GENDER" value="F">Female
+                <input type="radio" ng-model="GENDER" value="O">Other
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">PHOTO</lable>
+            <div class="col-md-10">
+                <input type="file" multiple="multiple" ng-model="PHOTOS" ngf-select="UploadFiles($files)" />
+                <input type="hidden" ng-model="PHOTO"  name="PImage"  />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Active</lable>
+            <div class="col-md-10">
+                <input type="radio" ng-model="IS_ACTIVE" value="True">Yes
+                <input type="radio" ng-model="IS_ACTIVE" value="False">No
+
+            </div>
+        </div>
+        <span ng-show="MyForm.COUNTRY_ID.$error.required">Select service</span>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" submit-required="true" ng-model="ADD" class="btn btn-default"  ng-click="ButtonC()" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" data-semver="2.1.1" data-require="jquery"></script>
+    <script>  
+
+        $(document).ready(function () {
+            var d = new Date();
+            $('#datetimepicker').datetimepicker(
+                {
+                    format: 'DD/MM/YYYY',
+                    maxDate: d,
+                });
+
+        });
+    </script>
+    
+}

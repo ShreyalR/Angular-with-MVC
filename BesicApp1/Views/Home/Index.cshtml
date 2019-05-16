@@ -1,0 +1,114 @@
+﻿
+
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron" ng-app="Login">
+    <div class="row" ng-controller="LoginController">
+        <div class="col-md-12">
+            <h4>Enter User Name:</h4> <input type="text" ng-model="USER_NAME" name="USER_NAME">
+           
+        </div>
+        <div class="col-md-12">
+            <h4>Enter Password:</h4> <input type="password" ng-model="PASSWORD" name="PASSWORD">
+        </div><br /><br />
+        <div class="col-md-12">
+            <input type="button" value="Submit" ng-click="ButtonC()" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Getting started</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Get more libraries</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Web Hosting</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script type="text/javascript">
+        var app = angular.module('Login', [])
+        app.controller('LoginController', function ($scope, $http, $window) {
+                    
+            $scope.ButtonC = function () {
+
+                var GetAll = new Object();
+                GetAll.USER_NAME = $scope.USER_NAME;
+                GetAll.PASSWORD = $scope.PASSWORD;
+                GetAll.USERID = 0;
+
+                    var post = $http({
+                        method: "POST",
+                        url: "/Home/Login",
+                        dataType: 'json',
+                        data: GetAll ,
+                        headers: { "Content-Type": "application/json" }
+                    });
+
+                post.success(function (data, status) {
+                    debugger;
+                    $window.location.href = data;
+                    });
+
+                post.error(function (data, status) {
+                    debugger;
+                    $window.alert("Hello: " + data[0].statusCode + " .\nCurrent Date and Time: " + data[0].StatusMsg);
+                    });
+                }
+        });
+
+        app.controller('MyCont', function ($scope, $http, $window) {
+
+            $scope.ButtonC = function () {
+
+
+                var GetAll = new Object();
+                GetAll.FName = $scope.FName;
+                GetAll.MName = $scope.MName;
+                GetAll.LName = $scope.LName;
+                GetAll.Age = $scope.Age;
+
+                // GetAll.SecondGet = new Object();
+                // GetAll.SecondGet.Mobile = Data.mobile;
+                // GetAll.SecondGet.EmailId = Data.email;
+
+                var post = $http({
+                    method: "POST",
+                    url: "/Home/AjaxMethod2",
+                    dataType: 'json',
+                    data: GetAll,
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                post.success(function (data, status) {
+                    $window.alert("Hello: " + data.FName + " " + data.MName + " " + data.LName + " .\nCurrent Age: " + data.Age);
+                });
+
+                post.error(function (data, status) {
+                    $window.alert(data.Message);
+                });
+            }
+        });
+
+    </script>
+
+}

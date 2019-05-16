@@ -1,0 +1,155 @@
+﻿@model BesicApp1.Models.TBL_REGISTRATION_MASTER
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TBL_REGISTRATION_MASTER</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.F_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.F_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.M_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.M_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.L_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.L_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DOB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DOB)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COUNTRY_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COUNTRY_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATE_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATE_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CITY_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CITY_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADDRESS_1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADDRESS_1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PHONE_1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PHONE_1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GENDER)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GENDER)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PHOTO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PHOTO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IS_ACTIVE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IS_ACTIVE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IS_DELETE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IS_DELETE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_ON)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_ON)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CREATED_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CREATED_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MODIFIED_ON)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MODIFIED_ON)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MODIFIED_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MODIFIED_BY)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.REG_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

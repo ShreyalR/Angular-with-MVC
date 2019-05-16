@@ -1,0 +1,123 @@
+﻿@model BesicApp1.Models.TBL_REGISTRATION_MASTER
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div ng-app="MyApp" ng-controller="MyController">
+    <div class="form-horizontal" name="MyForm" data-ng-init="getdata" data-ng-repeat="m in abc">
+        <h4>Client Registration</h4>
+        <hr />
+        <div class="form-group">
+            <lable class="control-label col-md-2">First Name</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" ng-model="F_NAME" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Middle Name</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" ng-model="M_NAME" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Last Name</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" ng-model="L_NAME" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Date Of Birth</lable>
+            <div class="col-md-10">
+                <input type="datetime" class="form-control" id="datetimepicker" ng-model="date" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Country</lable>
+            <div class="col-md-10">
+                <select name="COUNTRY_ID" ng-model="COUNTRY_ID" data-ng-init="Countrys()" ng-change="State(this)" class="form-control" required>
+                    <option ng-modeloptionng-model="COUNTRY_ID" data-ng-repeat="st in Country" value="{{st.Value}}">{{st.Text}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">State</lable>
+            <div class="col-md-10">
+                <select ng-model="STATE_ID" ng-change="City(this)" class="form-control">
+                    <option ng-modeloptionng-model="STATE_ID" data-ng-repeat="st in States" value="{{st.Value}}">{{st.Text}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">City</lable>
+            <div class="col-md-10">
+                <select ng-model="CITY_ID" class="form-control">
+                    <option ng-modeloptionng-model="CITY_ID" data-ng-repeat="st in Citys" value="{{st.Value}}">{{st.Text}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Address</lable>
+            <div class="col-md-10">
+                <input type="text" class="form-control" ng-model="ADDRESS_1" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Phone</lable>
+            <div class="col-md-10">
+                <input type="tel" class="form-control" ng-model="PHONE_1" requried />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">GENDER</lable>
+            <div class="col-md-10">
+                <input type="radio" ng-model="GENDER" value="M">Male
+                <input type="radio" ng-model="GENDER" value="F">Female
+                <input type="radio" ng-model="GENDER" value="O">Other
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">PHOTO</lable>
+            <div class="col-md-10">
+                <input type="file" multiple="multiple" ng-model="PHOTOS" ngf-select="UploadFiles($files)" />
+                <input type="hidden" ng-model="PHOTO" name="PImage" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <lable class="control-label col-md-2">Active</lable>
+            <div class="col-md-10">
+                <input type="radio" ng-model="IS_ACTIVE" value="True">Yes
+                <input type="radio" ng-model="IS_ACTIVE" value="False">No
+
+            </div>
+        </div>
+        <span ng-show="MyForm.COUNTRY_ID.$error.required">Select service</span>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" submit-required="true" ng-model="ADD" class="btn btn-default" ng-click="ButtonC()" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

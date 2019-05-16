@@ -1,0 +1,164 @@
+﻿@model IEnumerable<BesicApp1.Models.TBL_REGISTRATION_MASTER>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div ng-app="MyApp" ng-controller="MyController">
+    <table data-ng-init="post" class="table display" >
+        <thead>
+            <tr>
+                <th>Sr.No</th>
+                <th>
+                    Full Name
+                </th>
+                <th>
+                    DOB
+                </th>
+                <th>
+                    Geo Location
+                </th>
+                <th>
+                    ADDRESS_1
+                </th>
+                <th>
+                    PHONE_1
+                </th>
+                <th>
+                    GENDER
+                </th>
+                <th>
+                    PHOTO
+                </th>
+                <th>
+                    CREATED_ON
+                </th>
+                <th>
+                    IS_ACTIVE
+                </th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="m in Customers">
+                <td>
+                    {{$index+1}}
+                </td>
+                <td>
+                    {{m.F_NAME}} {{m.M_NAME}} {{m.L_NAME}}
+                </td>
+                <td>
+                    {{m.DOB | date:'shortTime' }}
+                </td>
+                <td>
+                    {{m.geoLocation}}
+                </td>
+                <td>
+                    {{m.ADDRESS_1}}
+                </td>
+                <td>
+                    {{m.PHONE_1}}
+                </td>
+                <td>
+                    {{m.GENDER}}
+                </td>
+                <td>
+                    <img class="img-rounded img-responsive" height="50px" width="50px" src="{{m.PHOTO}}" />
+                </td>
+                <td>
+                    {{m.CREATED_ON}}
+                </td>
+                <td>
+                    <a href="#" ng-model="Active" ng-click="Active(m.REG_ID)"> {{m.IS_ACTIVE}}  </a>
+                </td>
+                <td>
+                    <a href="../Client/Edit?id={{m.REG_ID}}" ng-model="Edit" ng-click="Edit(m.REG_ID)">Edit</a>
+                </td>
+                <td>
+                    <a href="#" ng-model="Delete" ng-click="Delete(m.REG_ID)">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+
+
+    @*<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>*@
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        var app = angular.module('MyApp', [])
+        app.controller('MyController', function ($scope, $http, $window) {
+            //Getting records from database.
+            //  $scope.getClient = function () {
+            var post = $http({
+                method: "GET",
+                url: "/Client/GetClient",
+                dataType: 'json',
+                headers: { "Content-Type": "application/json" }
+            });
+            post.success(function (data, status) {
+                debugger;
+                $scope.Customers = data;
+            });
+            // } Delete
+            var Edit = function (REG_ID) {
+
+                $window.location.href = '../Client/Edit?id=' + REG_ID;
+
+            };
+
+            $scope.Delete = function (REG_ID) {
+                if (confirm("Are you Sure to delete this record !")) {
+                    var Deletes = $http({
+                        method: "POST",
+                        url: "../Client/Delete",
+                        data: "{id: '" + REG_ID + "'}",
+                        dataType: 'json',
+                        headers: { "Content-Type": "application/json" }
+                    });
+                    Deletes.success(function (data, status) {
+                        $scope.Customers = data;
+                    });
+                    $scope.Name = "";
+                    $scope.Country = "";
+                }
+
+            };
+
+            $scope.Active = function (REG_ID) {
+
+                var post = $http({
+                    method: "POST",
+                    url: "../Client/Details",
+                    data: "{id: '" + REG_ID + "'}",
+                    dataType: 'json',
+                    headers: { "Content-Type": "application/json" }
+                });
+                post.success(function (data, status) {
+                    $scope.Customers = data;
+                });
+                $scope.Name = "";
+                $scope.Country = "";
+
+            };
+        });
+    </script>
+
+}
