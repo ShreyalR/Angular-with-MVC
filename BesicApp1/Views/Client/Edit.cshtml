@@ -1,14 +1,179 @@
-﻿@model BesicApp1.Models.TBL_REGISTRATION_MASTER
+﻿
 
-@{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<link href="~/Content/datepicker.css" rel="stylesheet" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+<script type="text/javascript">
+    var app = angular.module('MyApp', ['ngFileUpload'])
+    app.controller('MyController', function ($scope, $http, $window, Upload, $location) {
 
+        $scope.Countrys = function () {
+            var JKS = $http({
+                method: "POST",
+                url: "../Home/Country",
+                dataType: 'json',
+                headers: { "Content-Type": "application/json" }
+            });
+            JKS.success(function (data, status) {
+
+                $scope.Country = data;
+                //$scope.Country = "string:1";
+            });
+        }
+
+        $scope.State = function (REG_ID) {
+            var country = 0;
+            if (REG_ID.COUNTRY_ID != undefined) {
+                country = REG_ID.COUNTRY_ID;
+            }
+            else {
+                country = REG_ID;
+            }
+            var JKS = $http({
+                method: "POST",
+                url: "../Home/State",
+                data: "{id: '" + country + "'}",
+                dataType: 'json',
+                headers: { "Content-Type": "application/json" }
+            });
+            JKS.success(function (data, status) {
+                $scope.States = data;
+            });
+        };
+
+        $scope.City = function (REG_ID) {
+            var state = 0;
+            if (REG_ID.STATE_ID != undefined) {
+                state = REG_ID.STATE_ID;
+            }
+            else {
+                state = REG_ID;
+            }
+            
+            var asd = $http({
+                method: "POST",
+                url: "../Home/City",
+                data: "{id: '" + state + "'}",
+                dataType: 'json',
+                headers: { "Content-Type": "application/json" }
+            });
+            asd.success(function (data, status) {
+                $scope.Citys = data;
+            });
+        };
+
+        $scope.UploadFiles = function (files) {
+            $scope.SelectedFiles = files;
+            if ($scope.SelectedFiles && $scope.SelectedFiles.length) {
+                Upload.upload({
+                    url: '/Client/Upload/',
+                    data: {
+                        files: $scope.SelectedFiles
+                    }
+                }).then(function (response) {
+                    // $timeout(function () {
+                    debugger;
+                    $scope.PHOTO = response.data;
+                    //this.PImage = response.data;
+                    //});
+                }, function (response) {
+                    if (response.status > 0) {
+                        var errorMsg = response.status + ': ' + response.data;
+                        alert(errorMsg);
+                    }
+                }, function (evt) {
+                    // var element = angular.element(document.querySelector('#dvProgress'));
+                    //  $scope.Progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    // element.html('<div style="width: ' + $scope.Progress + '%">' + $scope.Progress + '%</div>');
+                });
+            }
+        };
+
+        $scope.ButtonC = function () {
+            debugger;
+            var abc = $location.$$absUrl;
+            var myvalue = "";
+            if (abc.split('=')[1] != null) {
+                 myvalue = abc.split('=')[1];
+            }
+            var post = $http({
+                method: "POST",
+                url: "/Client/Edits",
+                dataType: 'json',
+                data: "{id: '" + myvalue + "'}",
+                headers: { "Content-Type": "application/json" }
+            });
+
+            post.success(function (data, status) {
+                //alert("hi2");
+                debugger;
+                $scope.REF_ID = data.REG_ID;
+                $scope.F_NAME = data.F_NAME;
+                $scope.M_NAME = data.M_NAME
+                $scope.L_NAME = data.L_NAME;
+                $scope.date = data.DOB;
+                $scope.Countrys();
+                $scope.COUNTRY_ID = data.COUNTRY_ID;
+                $scope.State(data.COUNTRY_ID);
+                $scope.STATE_ID = data.STATE_ID;
+                $scope.City(data.STATE_ID);
+                $scope.CITY_ID = data.CITY_ID;
+                $scope.ADDRESS_1 = data.ADDRESS_1;
+                $scope.PHONE_1 = data.PHONE_1;
+                $scope.GENDER = data.GENDER;
+                $scope.PHOTO = data.PHOTO;
+                $scope.IS_ACTIVE = data.IS_ACTIVE;
+                // $window.location.href = data;
+            });
+            post.error(function (data, status) {
+                debugger;
+                $window.alert("Hello: " + data[0].statusCode + " .\nCurrent Date and Time: " + data[0].StatusMsg);
+            });
+
+        }
+
+
+        $scope.Update = function () {
+            debugger;
+            var GetAll = new Object();
+            GetAll.REG_ID = $scope.REF_ID;
+            GetAll.F_NAME = $scope.F_NAME;
+            GetAll.M_NAME = $scope.M_NAME;
+            GetAll.L_NAME = $scope.L_NAME;
+            GetAll.DOB = $scope.date;
+            GetAll.COUNTRY_ID = $scope.COUNTRY_ID;
+            GetAll.STATE_ID = $scope.STATE_ID;
+            GetAll.CITY_ID = $scope.CITY_ID;
+            GetAll.ADDRESS_1 = $scope.ADDRESS_1;
+            GetAll.PHONE_1 = $scope.PHONE_1;
+            GetAll.GENDER = $scope.GENDER;
+            GetAll.PHOTO = $scope.PHOTO;
+            GetAll.IS_ACTIVE = $scope.IS_ACTIVE;
+
+            var post = $http({
+                method: "POST",
+                url: "/Client/Edit",
+                dataType: 'json',
+                data: GetAll,
+                headers: { "Content-Type": "application/json" }
+            });
+
+            post.success(function (data, status) {
+
+                $window.location.href = data;
+            });
+
+            post.error(function (data, status) {
+                debugger;
+                $window.alert("Hello: " + data[0].statusCode + " .\nCurrent Date and Time: " + data[0].StatusMsg);
+            });
+        }
+    });
+</script>
 <div ng-app="MyApp" ng-controller="MyController">
-    <div class="form-horizontal" name="MyForm" data-ng-init="getdata" data-ng-repeat="m in abc">
+    <div class="form-horizontal" name="MyForm" data-ng-init="ButtonC()">
         <h4>Client Registration</h4>
         <hr />
+        <input type="hidden" ng-model="REF_ID" />
         <div class="form-group">
             <lable class="control-label col-md-2">First Name</lable>
             <div class="col-md-10">
@@ -40,9 +205,10 @@
         <div class="form-group">
             <lable class="control-label col-md-2">Country</lable>
             <div class="col-md-10">
-                <select name="COUNTRY_ID" ng-model="COUNTRY_ID" data-ng-init="Countrys()" ng-change="State(this)" class="form-control" required>
+                <select ng-model="COUNTRY_ID" ng-change="State(this)" class="form-control">
                     <option ng-modeloptionng-model="COUNTRY_ID" data-ng-repeat="st in Country" value="{{st.Value}}">{{st.Text}}</option>
                 </select>
+                @*<select ng-model="COUNTRY_ID" ng-options="country.Value as country.Text for country in Country"></select>*@
             </div>
         </div>
 
@@ -92,6 +258,7 @@
             <div class="col-md-10">
                 <input type="file" multiple="multiple" ng-model="PHOTOS" ngf-select="UploadFiles($files)" />
                 <input type="hidden" ng-model="PHOTO" name="PImage" />
+                <img class="img-rounded img-responsive" width="50px" height="50px" />
             </div>
         </div>
 
@@ -100,14 +267,13 @@
             <div class="col-md-10">
                 <input type="radio" ng-model="IS_ACTIVE" value="True">Yes
                 <input type="radio" ng-model="IS_ACTIVE" value="False">No
-
             </div>
         </div>
         <span ng-show="MyForm.COUNTRY_ID.$error.required">Select service</span>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" submit-required="true" ng-model="ADD" class="btn btn-default" ng-click="ButtonC()" />
+                <input type="submit" value="Save" submit-required="true" ng-model="UPDATE" class="btn btn-default" ng-click="Update()" />
             </div>
         </div>
     </div>
@@ -120,4 +286,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+
+
 }

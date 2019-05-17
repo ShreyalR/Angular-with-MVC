@@ -8,9 +8,22 @@ namespace BesicApp1.Models
 {
     public class Regis
     {
-        
+        public int REG_ID { get; set; }
+        public string F_NAME { get; set; }
+        public string M_NAME { get; set; }
+        public string L_NAME { get; set; }
+        public string DOB { get; set; }
+        public string COUNTRY_ID { get; set; }
+        public string STATE_ID { get; set; }
+        public string CITY_ID { get; set; }
+        public string ADDRESS_1 { get; set; }
+        public string PHONE_1 { get; set; }
+        public string GENDER { get; set; }
+        public string PHOTO { get; set; }
+        public string IS_ACTIVE { get; set; }
+     
     }
- 
+
     public partial class REGISTRATION_MASTER
     {
         public int REG_ID { get; set; }
@@ -128,7 +141,7 @@ namespace BesicApp1.Models
         [Required]
         public string Gender { get; set; }
 
-       
+
         public HttpPostedFileBase PHOTO { get; set; }
 
         public string PHOTO_path { get; set; }

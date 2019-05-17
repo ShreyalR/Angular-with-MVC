@@ -84,32 +84,68 @@ namespace BesicApp1.Controllers
         }
 
         // GET: Client/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
+            return View();
+        }
+        [HttpPost]
+        public JsonResult Edits(int id)
+        {
+            if (id == 0)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Json(HttpStatusCode.BadRequest);
             }
             TBL_REGISTRATION_MASTER tBL_REGISTRATION_MASTER = db.TBL_REGISTRATION_MASTER.Find(id);
+            Regis TRM = new Regis();
+            TRM.REG_ID = tBL_REGISTRATION_MASTER.REG_ID;
+            TRM.STATE_ID = Convert.ToString(tBL_REGISTRATION_MASTER.STATE_ID);
+            TRM.CITY_ID = Convert.ToString(tBL_REGISTRATION_MASTER.CITY_ID);
+            TRM.COUNTRY_ID = Convert.ToString(tBL_REGISTRATION_MASTER.COUNTRY_ID);
+            TRM.F_NAME = tBL_REGISTRATION_MASTER.F_NAME;
+            TRM.M_NAME = tBL_REGISTRATION_MASTER.M_NAME;
+            TRM.L_NAME = tBL_REGISTRATION_MASTER.L_NAME;
+            TRM.ADDRESS_1 = tBL_REGISTRATION_MASTER.ADDRESS_1;
+            TRM.DOB = Convert.ToString(tBL_REGISTRATION_MASTER.DOB );
+            TRM.GENDER = tBL_REGISTRATION_MASTER.GENDER;
+            TRM.IS_ACTIVE = Convert.ToString(tBL_REGISTRATION_MASTER.IS_ACTIVE);
+            TRM.PHONE_1 = tBL_REGISTRATION_MASTER.PHONE_1;
+            TRM.PHOTO = tBL_REGISTRATION_MASTER.PHOTO ;
             if (tBL_REGISTRATION_MASTER == null)
             {
-                return HttpNotFound();
+                return Json(HttpNotFound());
             }
-            return View(tBL_REGISTRATION_MASTER);
+            return Json(TRM, JsonRequestBehavior.AllowGet);
         }
-
         // POST: Client/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "REG_ID,F_NAME,M_NAME,L_NAME,DOB,COUNTRY_ID,STATE_ID,CITY_ID,ADDRESS_1,PHONE_1,GENDER,PHOTO,IS_ACTIVE,IS_DELETE,CREATED_ON,CREATED_BY,MODIFIED_ON,MODIFIED_BY")] TBL_REGISTRATION_MASTER tBL_REGISTRATION_MASTER)
+        public ActionResult Edit(TBL_REGISTRATION_MASTER tBL_REGISTRATION_MASTER)
         {
+            TBL_REGISTRATION_MASTER TRM = db.TBL_REGISTRATION_MASTER.Find(tBL_REGISTRATION_MASTER.REG_ID);
             if (ModelState.IsValid)
             {
-                db.Entry(tBL_REGISTRATION_MASTER).State = EntityState.Modified;
+                TRM.STATE_ID = tBL_REGISTRATION_MASTER.STATE_ID;
+                TRM.CITY_ID = tBL_REGISTRATION_MASTER.CITY_ID;
+                TRM.COUNTRY_ID = tBL_REGISTRATION_MASTER.COUNTRY_ID;
+                TRM.F_NAME = tBL_REGISTRATION_MASTER.F_NAME != null ? tBL_REGISTRATION_MASTER.F_NAME : TRM.F_NAME;
+                TRM.M_NAME = tBL_REGISTRATION_MASTER.M_NAME != null ? tBL_REGISTRATION_MASTER.M_NAME : TRM.M_NAME;
+                TRM.L_NAME = tBL_REGISTRATION_MASTER.L_NAME != null ? tBL_REGISTRATION_MASTER.L_NAME : TRM.L_NAME;
+                TRM.ADDRESS_1 = tBL_REGISTRATION_MASTER.ADDRESS_1 != null ? tBL_REGISTRATION_MASTER.ADDRESS_1 : TRM.ADDRESS_1;
+                TRM.DOB = tBL_REGISTRATION_MASTER.DOB != null ? tBL_REGISTRATION_MASTER.DOB : TRM.DOB;
+                TRM.GENDER = tBL_REGISTRATION_MASTER.GENDER != null ? tBL_REGISTRATION_MASTER.GENDER : TRM.GENDER;
+                TRM.IS_ACTIVE = tBL_REGISTRATION_MASTER.IS_ACTIVE != null ? tBL_REGISTRATION_MASTER.IS_ACTIVE : TRM.IS_ACTIVE;
+                TRM.PHONE_1 = tBL_REGISTRATION_MASTER.PHONE_1 != null ? tBL_REGISTRATION_MASTER.PHONE_1 : TRM.PHONE_1;
+                TRM.PHOTO = tBL_REGISTRATION_MASTER.PHOTO != null ? tBL_REGISTRATION_MASTER.PHOTO : TRM.PHOTO;
+                TRM.IS_DELETE = tBL_REGISTRATION_MASTER.IS_DELETE != null ? tBL_REGISTRATION_MASTER.IS_DELETE : TRM.IS_DELETE;
+                TRM.CREATED_BY = tBL_REGISTRATION_MASTER.CREATED_BY != null ? tBL_REGISTRATION_MASTER.CREATED_BY : TRM.CREATED_BY;
+                TRM.CREATED_ON = tBL_REGISTRATION_MASTER.CREATED_ON != null ? tBL_REGISTRATION_MASTER.CREATED_ON : TRM.CREATED_ON;
+
+                tBL_REGISTRATION_MASTER.MODIFIED_BY = 1;
+                tBL_REGISTRATION_MASTER.MODIFIED_ON = DateTime.Now;
+                db.Entry(TRM).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json("../Client/");
             }
             return View(tBL_REGISTRATION_MASTER);
         }
